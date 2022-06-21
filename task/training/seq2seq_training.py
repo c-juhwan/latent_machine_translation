@@ -270,6 +270,10 @@ def seq2seq_training(args):
                 write_log(logger, 'Validation Loss: %3.3f' % val_loss)
                 write_log(logger, 'Validation Accuracy: %3.2f%%' % (val_acc * 100))
 
+                if args.use_tensorboard:
+                    tb_writer.add_scalar('VALID/Total_Loss', val_loss, epoch)
+                    tb_writer.add_scalar('VALID/Accuracy', val_acc * 100, epoch)
+
                 save_file_name = model_save_name(args)
                 if val_loss < best_val_loss:
                     write_log(logger, 'Checkpoint saving...')
@@ -283,15 +287,11 @@ def seq2seq_training(args):
                     best_val_loss = val_loss
                     best_epoch = epoch
                 else:
-                    else_log = f'Still {best_epoch} epoch Loss({round(best_val_loss.item(), 2)}) is better...'
+                    else_log = f'Still {best_epoch} epoch Loss({round(best_val_loss, 2)}) is better...'
                     write_log(logger, else_log)
-
-                if args.use_tensorboard:
-                    tb_writer.add_scalar('VALID/Total_Loss', val_loss, epoch)
-                    tb_writer.add_scalar('VALID/Accuracy', val_acc * 100, epoch)
 
     # 3) Print results
     write_log(logger, f'Best Epoch: {best_epoch}')
-    write_log(logger, f'Best Loss: {round(best_val_loss.item(), 2)}')
+    write_log(logger, f'Best Loss: {round(best_val_loss, 2)}')
     if args.use_tensorboard:
-        tb_writer.add_text('VALID/Best Epoch&Accuracy', f'Best Epoch: {best_epoch}\nBest Accuracy: {round(best_val_loss.item(), 4)}')
+        tb_writer.add_text('VALID/Best Epoch&Loss', f'Best Epoch: {best_epoch}\nBest Loss: {round(best_val_loss, 4)}')

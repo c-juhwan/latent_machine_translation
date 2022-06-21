@@ -326,7 +326,7 @@ class Latent_module(nn.Module):
             z = eps.mul(std).add_(src_mu) # [batch, d_latent]
 
             # 5. Decoding with CNN Decoder
-            resize_z = self.latent_decoder(z) # [seq_len, batch, d_model]
+            resize_z = self.latent_decoder(z.unsqueeze(2)) # [seq_len, batch, d_model]
 
             encoder_out_total = torch.add(encoder_out_src, resize_z)
 
@@ -344,14 +344,14 @@ class Latent_module(nn.Module):
         if self.variational_mode in [7,8]:
 
             # 1. Model dimension to latent dimenseion with CNN encoder
-            src_latent = self.latent_encoder(encoder_out_src) # [batch, d_latent, 1]
-            trg_latent = self.latent_encoder(encoder_out_trg) # [batch, d_latent, 1]
+            src_latent = self.latent_encoder(encoder_out_src) # [batch, d_latent]
+            trg_latent = self.latent_encoder(encoder_out_trg) # [batch, d_latent]
 
             # 2. Calculate Maximum-mean discrepancy
             dist_loss = self.mmd_criterion(src_latent, trg_latent, self.z_var)
 
             # 3. Decoding with full CNN Decoder
-            src_latent = self.latent_decoder(src_latent) # [seq_len, batch, d_latent]
+            src_latent = self.latent_decoder(src_latent.unsqueeze(2)) # [seq_len, batch, d_latent]
 
             encoder_out_total = torch.add(encoder_out_src, src_latent)
 
@@ -581,7 +581,7 @@ class Latent_module(nn.Module):
             src_latent = self.latent_encoder(encoder_out_src) # [batch, d_latent]
             src_mu = self.context_to_mu(src_latent) # [batch, d_latent]
             
-            resize_z = self.latent_decoder(src_mu) # [seq_len, batch, d_model]
+            resize_z = self.latent_decoder(src_mu.unsqueeze(2)) # [seq_len, batch, d_model]
 
             encoder_out_total = torch.add(encoder_out_src, resize_z)
             
@@ -591,8 +591,8 @@ class Latent_module(nn.Module):
 
         if self.variational_mode == [7,8]:
 
-            src_latent = self.latent_encoder(encoder_out_src) # [batch, d_latent, 1]
-            src_latent = self.latent_decoder(src_latent) # [token, batch, d_model]
+            src_latent = self.latent_encoder(encoder_out_src) # [batch, d_latent]
+            src_latent = self.latent_decoder(src_latent.unsqueeze(2)) # [token, batch, d_model]
 
             encoder_out_total = torch.add(encoder_out_src, src_latent)
 

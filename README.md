@@ -22,8 +22,8 @@ This code is written in Python. Dependencies include
 * CNN & Daily Mail **News Summarization** (--task=summarization --data_name=cnn_dailymail)
 #### Classification
 * IMDB **Sentiment Analysis** (--task=classification --data_name=IMDB)
-* NSMC (Coming soon...)
-* Korean Hate Speech (Coming soon...)
+* NSMC **Sentiment Analysis** (Coming soon...)
+* Korean Hate Speech **Toxic Classification** (Coming soon...)
 
 ## Preprocessing
 
@@ -77,6 +77,26 @@ python main.py --training --d_model=768 --d_embedding=256 --n_head=16 \
 --dim_feedforward=2048 --dropout=0.3 --embedding_dropout=0.1 --num_encoder_layer=8 \
 --num_decoder_layer=8 --trg_emb_prj_weight_sharing=False --emb_src_trg_weight_sharing=True
 ```
+
+#### Parallel Options
+<img src="./figure/Parallel_Transformer.png">
+On the left is the Transformer architecture proposed in the previous paper. However, the architecture we propose is in which encoder and decoder are configured in parallel.
+
+```
+python main.py --training --parallel=True
+```
+
+#### Beam Search
+
+Available options are
+* Beam size (--beam_size)
+* Length normalization (--beam_alpha)
+* Penelize word that already generated (--repetition_penalty)
+
+```
+python main.py --testing --beam_size=5 --beam_alpha=0.7 --repetition_penalty=0.7
+```
+
 
 ### Bart
 Implementation of the Bart model in "[BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension](https://arxiv.org/pdf/1910.13461.pdf)" (Mike Lewis, Yinhan Liu, Naman Goyal, Marjan Ghazvininejad, Abdelrahman Mohamed, Omer Levy, Ves Stoyanov and Luke Zettlemoyer, ACL 2020).
