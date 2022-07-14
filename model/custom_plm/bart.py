@@ -1,4 +1,5 @@
 import math
+from collections import defaultdict
 # Import PyTorch
 import torch
 import torch.nn as nn

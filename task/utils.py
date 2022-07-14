@@ -36,9 +36,9 @@ def results_save_name(args):
     if not os.path.exists(result_path_):
         os.mkdir(result_path_)
     if args.tokenizer == 'spm':
-        save_name_pre = f'TEST_src_{args.src_vocab_size}_trg_{args.trg_vocab_size}_v_{args.variational_mode}_p_{args.parallel}.pth.tar'
+        save_name_pre = f'Result_src_{args.src_vocab_size}_trg_{args.trg_vocab_size}_v_{args.variational_mode}_p_{args.parallel}.csv'
     else:
-        save_name_pre = f'TEST_v_{args.variational_mode}_p_{args.parallel}.pth.tar'
+        save_name_pre = f'Result_v_{args.variational_mode}_p_{args.parallel}.csv'
     save_result_name = os.path.join(result_path_, save_name_pre)
 
     return save_result_name

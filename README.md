@@ -49,6 +49,13 @@ python main.py --preprocessing --tokenizer=spm --sentencepiece_model=unigram \
 --pad_id=0 --unk_id=3 --bos_id=1 --eos_id=2
 ```
 
+### Use Pre-trained Tokenizer
+If you want to use pre-trained tokenizer, you can use it by entering its name in the tokenizer option. In this case, options such as vocabulary size and ID are ignored because of using a pre-trained tokenizer. Currently available pre-trained tokenizers are 'Bart', 'Bert', and 'T5'.
+
+```
+python main.py --preprocessing --tokenizer=bart
+```
+
 ## Training
 
 To train the model, add the training (--training) option. Currently, only the Transformer model is available, but RNN and Pre-trained Language Model will be added in the future.
@@ -86,6 +93,13 @@ On the left is the Transformer architecture proposed in the previous paper. Howe
 python main.py --training --parallel=True
 ```
 
+### Bart
+Implementation of the Bart model in "[BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension](https://arxiv.org/pdf/1910.13461.pdf)" (Mike Lewis, Yinhan Liu, Naman Goyal, Marjan Ghazvininejad, Abdelrahman Mohamed, Omer Levy, Ves Stoyanov and Luke Zettlemoyer, ACL 2020).
+
+```
+python main.py --training --model_type=bart
+```
+
 #### Beam Search
 
 Available options are
@@ -94,12 +108,8 @@ Available options are
 * Penelize word that already generated (--repetition_penalty)
 
 ```
-python main.py --testing --beam_size=5 --beam_alpha=0.7 --repetition_penalty=0.7
+python main.py --testing --test_batch_size=48 --beam_size=5 --beam_alpha=0.7 --repetition_penalty=0.7
 ```
-
-
-### Bart
-Implementation of the Bart model in "[BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension](https://arxiv.org/pdf/1910.13461.pdf)" (Mike Lewis, Yinhan Liu, Naman Goyal, Marjan Ghazvininejad, Abdelrahman Mohamed, Omer Levy, Ves Stoyanov and Luke Zettlemoyer, ACL 2020).
 
 ## Authors
 

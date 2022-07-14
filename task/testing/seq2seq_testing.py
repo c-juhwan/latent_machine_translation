@@ -24,7 +24,7 @@ from task.utils import model_save_name, results_save_name
 
 def seq2seq_testing(args):
 
-    device = torch.device(args.device if torch.cuda.is_available() else "cpu")
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     #===================================#
     #==============Logging==============#
@@ -116,7 +116,7 @@ def seq2seq_testing(args):
     save_file_name = model_save_name(args)
     model.load_state_dict(torch.load(save_file_name)['model'])
     model = model.eval()
-    write_log(logger, f'Loaded model from {save_file_name}!')
+    write_log(logger, f'Loaded model from {save_file_name}')
 
     # 2) Dataloader setting
     test_dataset = Seq2SeqDataset(src_list=test_src_input_ids, src_att_list=test_src_attention_mask,
